@@ -159,8 +159,8 @@ local project = rbxmSuite.launch("path/to/Project.rbxm", {
 
 > ⚙️ **`sourcehook`**
 >
-> If set, gets called for every function source and is used to transform the script source.
-> The function should be in the form of `(source: string) -> string`.
+> If set, gets called for every script source and is used to transform the source.
+> The function should be in the form of `(source: string) -> string`, or defaulted to `nil` if not used.
 
 <br/>
 
