@@ -106,6 +106,7 @@ local project = rbxmSuite.launch("path/to/Project.rbxm", {
 	nocirculardeps = true,
 	debug = false,
 	verbose = false,
+	sourcehook = nil,
 })
 ```
 
@@ -153,6 +154,13 @@ local project = rbxmSuite.launch("path/to/Project.rbxm", {
 > ⚙️ **`verbose`**
 > 
 > Enable verbose logging. Defaults to `false`.
+
+<br/>
+
+> ⚙️ **`sourcehook`**
+>
+> If set, gets called for every function source and is used to transform the script source.
+> The function should be in the form of `(source: string) -> string`.
 
 <br/>
 

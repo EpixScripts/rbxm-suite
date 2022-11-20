@@ -248,6 +248,13 @@ local function pushModule(object, stream, options)
 	local id = string.format("%q", registerModule(object, not options.nocirculardeps))
 	local path = string.format("%q", "@" .. PROGRAM_NAME .. "." .. object:GetFullName())
 
+	-- Now call source hook before script source is wrapped
+	if options.sourcehook and type(options.sourcehook) == "function" then
+		local modifiedSource = options.sourcehook(object.Source)
+		assert(type(modifiedSource) == "string", "sourcehook() returned a non-string value")
+		object.Source = modifiedSource
+	end
+
 	if options.debug then
 		-- Localize globals to avoid setfenv() optimization issues.
 		object.Source = "local script, require = unpack((...)[" .. id .. "]); " .. object.Source
@@ -376,6 +383,7 @@ local function launch(url, opt)
 		nocirculardeps = useOption(opt.nocirculardeps, true),
 		debug          = useOption(opt.debug, false),
 		verbose        = useOption(opt.verbose, false),
+		sourcehook     = useOption(opt.sourcehook, nil),
 	}
 
 	log("\n\n" .. utf8.char(0x1F680) .. " Launching file '" .. url .. "'\n", options.verbose)
